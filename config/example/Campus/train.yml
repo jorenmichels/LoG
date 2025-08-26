@@ -1,13 +1,13 @@
 parents:
-  - config/example/Campus/dataset.yml
-  - config/example/Campus/level_of_gaussian.yml
-  - config/example/Campus/stage_8_4.yml
+  - config/example/campus/dataset.yml
+  - config/example/campus/level_of_gaussian.yml
+  - config/example/campus/stage_8_4.yml
 
-exp: output/example/Campus/log
+exp: output/example/test/campus/log
 gpus: [0]
 
 log_interval: 1000
-save_interval: 100_000
+save_interval: 10_000
 
 max_steps: 750
 

@@ -184,3 +184,24 @@ class TensorTree(nn.Module):
         if self.log_query:
             print(f' query mean depth: {depth}')
         return index_concat
+    
+    def query_custom(self, root_index):
+        index = root_index
+        leaves = []
+
+        while True:
+            index_node = self.node_index[index].long()
+            id_child = self.tree[index_node].flatten().long()
+            id_child = id_child[id_child != -1]
+            if id_child.numel() == 0:
+                # if no valid children, current index are leaves
+                leaves.append(index)
+                break
+
+            flag_is_leaf = self.node_index[id_child] == -1
+            leaves.append(id_child[flag_is_leaf])
+            index = id_child[~flag_is_leaf]
+            if index.numel() == 0:
+                break
+
+        return torch.cat(leaves, dim=0)

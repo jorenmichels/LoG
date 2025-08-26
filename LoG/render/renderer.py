@@ -132,6 +132,8 @@ class NaiveRendererAndLoss(BaseRender):
         rotations = ret['rotation']
         cov3D = None
         empty_xyz = model.empty_xyz
+
+        print(xyz.shape)
         screenspace_points = torch.zeros_like(xyz, dtype=empty_xyz.dtype, device=empty_xyz.device, requires_grad=True)
         try:
             screenspace_points.retain_grad()

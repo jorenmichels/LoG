@@ -34,6 +34,10 @@ def main():
             fx, fy, cx, cy = p
             K = np.array([fx, 0, cx, 0, fy, cy, 0, 0, 1]).reshape(3, 3)
             dist = np.array([[0, 0, 0, 0, 0]])
+        elif cameras[key].model == 'SIMPLE_PINHOLE':
+            f, cx, cy = p
+            K = np.array([f, 0, cx, 0, f, cy, 0, 0, 1]).reshape(3, 3)
+            dist = np.array([[0, 0, 0, 0, 0]])
         else:
             K = np.array([[p[0], 0, p[2], 0, p[1], p[3], 0, 0, 1]]).reshape(3, 3)
             dist = np.array([[p[4], p[5], p[6], p[7], 0.]])

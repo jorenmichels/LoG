@@ -1,4 +1,4 @@
-num_workers: &num_workers 4
+num_workers: &num_workers 0
 
 NAIVE_STAGE:
   init:

@@ -91,7 +91,7 @@ class Trainer(nn.Module):
             val_loader = torch.utils.data.DataLoader(
                 dataset=dataset,
                 batch_size=1,
-                num_workers=4,
+                num_workers=0,
                 shuffle=False,
                 drop_last=False,
             )
@@ -115,7 +115,7 @@ class Trainer(nn.Module):
             stage = args
         batch_size = stage.get('batch_size', 16)
         iterations = stage.get('iterations', 1024) * base_iter
-        num_workers = stage.get('num_workers', 8)
+        num_workers = stage.get('num_workers', 0)
         def worker_init_fn(worker_id):
             np.random.seed(worker_id + 42)
         from .sampler import IterationBasedSampler
@@ -129,7 +129,7 @@ class Trainer(nn.Module):
         )
         return trainloader
     
-    def val_loader(self, dataset, index=None, num_workers=1):
+    def val_loader(self, dataset, index=None, num_workers=0):
         from .sampler import IndexSampler
         val_loader = torch.utils.data.DataLoader(
             dataset=dataset,
@@ -169,7 +169,7 @@ class Trainer(nn.Module):
         os.makedirs(join(self.exp, 'init'), exist_ok=True)
         if 'init' in self.cfg.train:
             dataset.set_state(**self.cfg.train.init.dataset_state)
-            valloader = self.val_loader(dataset, num_workers=8)
+            valloader = self.val_loader(dataset, num_workers=0)
             self.model.at_init_start()
             for iteration, data in enumerate(tqdm(valloader, desc='initialize the model')):
                 # timer the process

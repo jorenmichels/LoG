@@ -10,6 +10,7 @@ from .tensor_tree import TensorTree
 from .model_utils import get_module_by_str
 from ..cuda.compute_radius import compute_radius_module
 from .corrector import Corrector
+from .sh_utils import RGB2SH, SH2RGB
 
 MIN_PIXEL = 3
 
@@ -294,6 +295,39 @@ class LoG(nn.Module):
             ret, camera, self.gaussian.active_sh_degree)
         ret['scaling'] = ret['scaling']
         return ret
+    
+    def get_all_custom(self):
+        ret = {}
+        for key, val in self.gaussian.items():
+            ret[key] = val[:]
+        
+        ret_new = {
+            'xyz': ret['xyz'],
+            'scaling': self.gaussian.activation.scaling_activation(ret['scaling']),
+            'opacity': self.gaussian.activation.opacity_activation(ret['opacity']),
+            'rotation': self.gaussian.activation.rotation_activation(ret['rotation']),
+            'colors': SH2RGB(ret['colors'])
+        }
+
+        ret_new = {
+            'xyz': ret['xyz'],
+            'scaling': ret['scaling'],
+            'opacity': ret['opacity'],
+            'rotation': ret['rotation'],
+            'colors': ret['colors'],
+            'shs': ret['shs']
+        }
+
+        print ("thius is cool")
+        indices = self.tree.query_custom(self.tree.root_index.long())
+
+        # return only the ret values for the indices
+        for key, val in ret_new.items():
+            if isinstance(val, torch.Tensor):
+                ret_new[key] = val[indices]
+
+        return ret_new
+
 
     # training state
     def set_stage(self, stage_name):

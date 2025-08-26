@@ -1,5 +1,5 @@
-root: data/feicuiwan_sample_folder
-PLYNAME: data/feicuiwan_sample_folder/sparse/0/sparse.npz
+root: data/gebouw_h
+PLYNAME: data/gebouw_h/sparse/0/sparse.npz
 scale3d: 1.
 xyz_scale: 1.
 
@@ -21,12 +21,8 @@ val_dataset:
   args:
     root: $root
     namelist: 
-      - y/8y01073
-      - q/8q01283
-      - h/8h01559
-      - y/8y01755
-      - q/8q01543
-      - q/8q01330
+      - downscale_h/DSC00003
+      - downscale_v/DSC00001
     cache: cache_val.pkl
     pre_undis: True
     share_camera: False

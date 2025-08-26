@@ -1,15 +1,15 @@
 parents:
-  - config/example/Campus/dataset.yml
-  - config/example/Campus/level_of_gaussian.yml
-  - config/example/Campus/stage_8_4.yml
+  - config/example/campus/dataset.yml
+  - config/example/campus/level_of_gaussian.yml
+  - config/example/campus/stage_8_4.yml
 
-exp: output/example/Campus/log_wdepth_val
+exp: output/example/campus/gebouw_h/log_wdepth
 gpus: [0]
 
 log_interval: 1000
-save_interval: 100_000
+save_interval: 10_000
 
-max_steps: 300
+max_steps: 750
 
 dataset:
   module: LoG.dataset.colmap.DepthDataset
@@ -33,5 +33,5 @@ train:
       scale: 4
 
 val:
-  iteration: 60000
   dataset: $val_dataset
+  iteration: 10000
